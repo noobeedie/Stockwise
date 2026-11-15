@@ -105,7 +105,7 @@ StockWise/
 |------|-----------|--------------|
 | Ujjwal Painuly (Team Lead) | 25101280140 | Operator overloading, friend function, search, action stack, transactions |
 | Arnim Uniyal | 25101280154 | Stock class, sorting, ranking |
-| Pawan | 25101280967 | Portfolio linked list, deep copy, dashboard |
+| Pawan | 25101280967 | Portfolio linked list, copy constructor, class, dashboard |
 | Sameer Bisht | 25101281897 | Order queue, priority queue, user class |
 
 ## License
