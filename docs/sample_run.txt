@@ -1,0 +1,326 @@
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Stock symbol/name (no spaces): Current price: Quantity: Holding added.
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Stock symbol/name (no spaces): Current price: Quantity: Holding added.
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Stock symbol/name (no spaces): Current price: Quantity: Holding added.
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Sorted by current price (ascending).
+STOCK                PRICE       QTY       AVG BUY         VALUE           P/L
+------------------------------------------------------------------------------
+ITC                 450.00        30        450.00      13500.00          0.00
+INFY               1600.00        20       1600.00      32000.00          0.00
+TCS                3500.00        10       3500.00      35000.00          0.00
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: 
+========== PORTFOLIO DASHBOARD ==========
+Distinct holdings       : 3
+Total invested          : Rs. 80500.00
+Current market value    : Rs. 80500.00
+Unrealized profit/loss  : Rs. 0.00
+Return                  : 0.00%
+Best holding (absolute P/L): ITC
+Worst holding (absolute P/L): ITC
+=========================================
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Stock name: Buy quantity: Buy price per share: BUY completed and portfolio updated.
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Stock name: Sell quantity: Sell price per share: SELL completed and portfolio updated.
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: 
+Transaction history (newest first):
+SELL | INFY | Qty: 10 | Price: Rs. 1800.00 | Amount: Rs. 18000.00 | Realized P/L: Rs. 1800.00
+BUY | INFY | Qty: 5 | Price: Rs. 1700.00 | Amount: Rs. 8500.00
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: 
+========== PORTFOLIO DASHBOARD ==========
+Distinct holdings       : 3
+Total invested          : Rs. 72800.00
+Current market value    : Rs. 72500.00
+Unrealized profit/loss  : Rs. -300.00
+Return                  : -0.41%
+Best holding (absolute P/L): ITC
+Worst holding (absolute P/L): INFY
+=========================================
+
+============== STOCKWISE ==============
+1. Add holding manually
+2. Display portfolio
+3. Search holding
+4. Delete holding
+5. Sort holdings by current price
+6. Portfolio dashboard
+7. Copy constructor demo
+8. Friend function demo
+9. Operator overloading demo
+10. Show stock record count
+11. Add normal order
+12. Process normal order
+13. Add priority order
+14. Process priority order
+15. Update current market price
+16. Sort holdings by quantity
+17. Allocation report
+18. Show action history
+19. Remove latest action-history entry
+20. Show live Stock objects
+21. Display user
+22. Display normal queue
+23. Buy stock
+24. Sell stock
+25. Display transaction history
+26. Rank holdings by unrealized P/L
+0. Exit
+Enter choice: Thank you for using StockWise.

@@ -1,0 +1,12 @@
+# Build output
+stockwise
+stockwise.exe
+*.o
+*.exe
+*.out
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

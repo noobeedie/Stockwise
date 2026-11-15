@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StockWise — Portfolio Manager</title>
+<style>
+:root{
+  --bg:#f4f7fb;--panel:#fff;--ink:#17243a;--muted:#718096;--line:#e6ebf2;
+  --nav:#111d33;--nav2:#1b2c49;--blue:#3268e8;--blue2:#eaf0ff;
+  --green:#159a70;--greenbg:#e8f7f1;--red:#d94c5c;--redbg:#fff0f1;
+  --amber:#b7791f;--amberbg:#fff7e6;--shadow:0 8px 28px rgba(27,45,78,.06);
+}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:var(--nav);color:#dce6f6;padding:26px 16px;display:flex;flex-direction:column;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:11px;padding:0 12px 32px;font-weight:800;font-size:20px;letter-spacing:.2px;color:white}
+.logo{height:36px;width:36px;border-radius:11px;background:linear-gradient(135deg,#6b9cff,#3268e8);display:grid;place-items:center;font-weight:900}
+.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#8293ae;padding:0 13px;margin:12px 0 9px}
+.nav button{border:0;background:transparent;color:#aebbd0;width:100%;text-align:left;padding:12px 13px;border-radius:10px;margin:3px 0;display:flex;gap:12px;align-items:center;font-size:13px;font-weight:600}
+.nav button.active,.nav button:hover{background:var(--nav2);color:#fff}
+.nav .ico{width:18px;text-align:center;font-size:16px}
+.sidebar-foot{margin-top:auto;border-top:1px solid #293852;padding:18px 12px 0;color:#8494ad;font-size:11px;line-height:1.6}
+.main{flex:1;min-width:0;padding:28px 34px 45px;max-width:1600px;margin:0 auto;width:100%}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:27px;gap:16px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.3px;color:var(--blue);font-weight:800}
+h1{font-size:25px;margin:5px 0 0;letter-spacing:-.5px}
+.top-right{display:flex;align-items:center;gap:12px}
+.status{border:1px solid var(--line);background:white;padding:9px 12px;border-radius:10px;color:var(--muted);font-size:11px}
+.avatar{width:36px;height:36px;border-radius:50%;background:#dce7ff;color:#315fd0;display:grid;place-items:center;font-weight:800;font-size:12px}
+.view{display:none}.view.active{display:block}
+.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:17px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow);padding:19px}
+.stat-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;font-weight:600}
+.stat-icon{height:32px;width:32px;border-radius:10px;background:var(--blue2);color:var(--blue);display:grid;place-items:center;font-size:15px}
+.stat-value{font-size:25px;font-weight:800;letter-spacing:-.6px;margin:12px 0 4px}
+.stat-sub{font-size:11px;color:var(--muted)}
+.positive{color:var(--green)!important}.negative{color:var(--red)!important}
+.two-col{grid-template-columns:1.45fr 1fr;margin-bottom:17px}
+.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;gap:10px}
+.card-title h2{font-size:14px;margin:0}.hint{font-size:11px;color:var(--muted)}
+.chart-wrap{height:215px;position:relative}.chart-wrap canvas{width:100%;height:100%}
+.alloc-list{display:flex;flex-direction:column;gap:15px}
+.alloc-row{display:grid;grid-template-columns:90px 1fr 42px;align-items:center;gap:10px;font-size:11px}
+.bar{height:7px;border-radius:20px;background:#edf1f7;overflow:hidden}.bar span{display:block;height:100%;border-radius:20px;background:var(--blue)}
+.table-card{padding:0;overflow:hidden}.table-top{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.table-top h2{font-size:14px;margin:0}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input,select{border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 11px;color:var(--ink);outline:none;font-size:12px}
+input:focus,select:focus{border-color:#8aa9ff;box-shadow:0 0 0 3px #eaf0ff}
+.search{min-width:190px}
+.btn{border:0;border-radius:9px;padding:10px 13px;font-size:12px;font-weight:700;background:var(--blue);color:white}
+.btn:hover{filter:brightness(.96)}.btn.secondary{background:#edf2ff;color:#315fd0}.btn.ghost{background:#f2f5f9;color:#526176}.btn.danger{background:var(--redbg);color:var(--red)}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+th{text-align:left;padding:12px 18px;color:#8995a7;font-size:10px;text-transform:uppercase;letter-spacing:.7px;background:#fbfcfe}
+td{padding:14px 18px;border-top:1px solid #eef1f5;font-size:12px}
+tbody tr:hover{background:#fbfcff}
+.symbol{font-weight:800}.company{font-size:10px;color:var(--muted);margin-top:3px}
+.badge{display:inline-block;border-radius:20px;padding:5px 8px;font-size:10px;font-weight:700;background:var(--greenbg);color:var(--green)}
+.badge.loss{background:var(--redbg);color:var(--red)}.badge.neutral{background:#eef2f7;color:#64748b}
+.actions{display:flex;gap:5px}.icon-btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 8px;color:#637188;font-size:11px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:4px 0 18px;gap:12px}.section-head h2{font-size:19px;margin:0}.section-head p{font-size:12px;color:var(--muted);margin:5px 0 0}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:11px;font-weight:700;color:#59677b}.field input,.field select{width:100%}
+.form-card{max-width:760px}.form-actions{display:flex;gap:9px;margin-top:17px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.empty{text-align:center;padding:32px;color:var(--muted);font-size:12px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(11,22,42,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:10}
+.modal-backdrop.show{display:flex}.modal{width:min(500px,100%);background:#fff;border-radius:16px;padding:23px;box-shadow:0 25px 80px #0b162a44}
+.modal h3{margin:0 0 18px;font-size:17px}.modal .close{float:right;border:0;background:#f1f4f8;border-radius:8px;padding:5px 9px}
+.toast{position:fixed;right:24px;bottom:24px;background:#17243a;color:white;padding:12px 16px;border-radius:10px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none;z-index:20}
+.toast.show{opacity:1;transform:translateY(0)}
+.footer-note{font-size:10px;color:#8a96a8;margin-top:18px;line-height:1.5}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+@media(max-width:720px){.app{display:block}.sidebar{width:100%;padding:13px 12px}.brand{padding:0 8px 12px}.nav-label,.sidebar-foot{display:none}.nav{display:flex;overflow:auto;gap:4px}.nav button{width:auto;white-space:nowrap;padding:9px 11px}.main{padding:21px 14px}.topbar{margin-bottom:20px}.status{display:none}.stats{gap:9px}.card{padding:14px}.stat-value{font-size:20px}.split,.form-grid{grid-template-columns:1fr}.table-card{overflow-x:auto}.table-top{align-items:flex-start}.search{min-width:130px;width:100%}.tools{width:100%}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">S</div><span>StockWise</span></div>
+    <div class="nav-label">Workspace</div>
+    <nav class="nav">
+      <button class="active" data-view="overview"><span class="ico">▦</span>Overview</button>
+      <button data-view="portfolio"><span class="ico">◫</span>Portfolio</button>
+      <button data-view="trading"><span class="ico">⇄</span>Trading</button>
+      <button data-view="orders"><span class="ico">☷</span>Order Desk</button>
+      <button data-view="activity"><span class="ico">↺</span>Activity</button>
+    </nav>
+    <div class="sidebar-foot">PBL Project · C++ Stock Portfolio Management<br>Frontend prototype · Local browser storage</div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div class="eyebrow">Stock portfolio management</div><h1 id="pageTitle">Overview</h1></div>
+      <div class="top-right"><div class="status">● Demo workspace · Data saved in this browser</div><div class="avatar">SW</div></div>
+    </header>
+
+    <section class="view active" id="overview">
+      <div class="grid stats">
+        <div class="card"><div class="stat-head">Total Investment <span class="stat-icon">₹</span></div><div class="stat-value" id="sInvest">₹0.00</div><div class="stat-sub">Cost basis of current holdings</div></div>
+        <div class="card"><div class="stat-head">Market Value <span class="stat-icon">▥</span></div><div class="stat-value" id="sValue">₹0.00</div><div class="stat-sub">Latest price × quantity</div></div>
+        <div class="card"><div class="stat-head">Unrealized P/L <span class="stat-icon">↗</span></div><div class="stat-value" id="sPL">₹0.00</div><div class="stat-sub" id="sReturn">0.00% return</div></div>
+        <div class="card"><div class="stat-head">Holdings <span class="stat-icon">▤</span></div><div class="stat-value" id="sCount">0</div><div class="stat-sub">Distinct stock records</div></div>
+      </div>
+      <div class="grid two-col">
+        <div class="card"><div class="card-title"><h2>Portfolio value snapshot</h2><span class="hint">Based on current holdings</span></div><div class="chart-wrap"><canvas id="portfolioChart"></canvas></div></div>
+        <div class="card"><div class="card-title"><h2>Portfolio allocation</h2><span class="hint">By market value</span></div><div class="alloc-list" id="allocation"></div></div>
+      </div>
+      <div class="card table-card">
+        <div class="table-top"><h2>Top holdings</h2><button class="btn secondary" onclick="showView('portfolio')">View portfolio →</button></div>
+        <div id="topHoldings"></div>
+      </div>
+    </section>
+
+    <section class="view" id="portfolio">
+      <div class="section-head"><div><h2>Portfolio holdings</h2><p>Manage stock records, update market prices and review returns.</p></div><button class="btn" onclick="openModal('addModal')">＋ Add holding</button></div>
+      <div class="card table-card">
+        <div class="table-top"><h2>All holdings</h2><div class="tools"><input class="search" id="stockSearch" placeholder="Search symbol..." oninput="renderPortfolio()"><select id="sortBy" onchange="renderPortfolio()"><option value="default">Default order</option><option value="price">Price: low to high</option><option value="quantity">Quantity: low to high</option><option value="pl">P/L: high to low</option></select></div></div>
+        <div id="portfolioTable"></div>
+      </div>
+      <div class="footer-note">Note: Stock prices are manually entered demo values. This prototype does not fetch live market prices.</div>
+    </section>
+
+    <section class="view" id="trading">
+      <div class="section-head"><div><h2>Trading terminal</h2><p>Buy and sell holdings. Portfolio quantities and transaction records update automatically.</p></div></div>
+      <div class="split">
+        <div class="card form-card"><div class="card-title"><h2>Buy stock</h2><span class="badge">BUY</span></div>
+          <form id="buyForm"><div class="form-grid">
+            <div class="field"><label>Stock symbol</label><input id="buyName" required placeholder="e.g. RELIANCE"></div>
+            <div class="field"><label>Quantity</label><input id="buyQty" type="number" min="1" step="1" required placeholder="10"></div>
+            <div class="field"><label>Buy price per share (₹)</label><input id="buyPrice" type="number" min=".01" step=".01" required placeholder="1250.00"></div>
+          </div><div class="form-actions"><button class="btn" type="submit">Confirm buy</button><button class="btn ghost" type="reset">Clear</button></div></form>
+        </div>
+        <div class="card form-card"><div class="card-title"><h2>Sell stock</h2><span class="badge loss">SELL</span></div>
+          <form id="sellForm"><div class="form-grid">
+            <div class="field"><label>Stock symbol</label><input id="sellName" required placeholder="e.g. TCS"></div>
+            <div class="field"><label>Quantity</label><input id="sellQty" type="number" min="1" step="1" required placeholder="5"></div>
+            <div class="field"><label>Sell price per share (₹)</label><input id="sellPrice" type="number" min=".01" step=".01" required placeholder="3400.00"></div>
+          </div><div class="form-actions"><button class="btn" type="submit">Confirm sell</button><button class="btn ghost" type="reset">Clear</button></div></form>
+        </div>
+      </div>
+      <div class="card table-card" style="margin-top:17px"><div class="table-top"><h2>Recent transactions</h2></div><div id="recentTransactions"></div></div>
+    </section>
+
+    <section class="view" id="orders">
+      <div class="section-head"><div><h2>Order desk</h2><p>Demonstration of the normal FIFO queue and priority queue from the C++ project.</p></div></div>
+      <div class="split">
+        <div class="card"><div class="card-title"><h2>Normal order queue</h2><span class="badge neutral">FIFO</span></div>
+          <form id="normalForm"><div class="form-grid"><div class="field"><label>Order ID</label><input id="normalId" required placeholder="e.g. 1001"></div></div><div class="form-actions"><button class="btn">Enqueue order</button><button class="btn ghost" type="button" onclick="processNormal()">Process front</button></div></form>
+          <div id="normalQueue" class="footer-note"></div>
+        </div>
+        <div class="card"><div class="card-title"><h2>Priority order queue</h2><span class="badge">Highest first</span></div>
+          <form id="priorityForm"><div class="form-grid"><div class="field"><label>Order ID</label><input id="priorityId" required placeholder="e.g. 2001"></div><div class="field"><label>Priority (higher = urgent)</label><input id="priorityLevel" type="number" required value="1"></div></div><div class="form-actions"><button class="btn">Add priority order</button><button class="btn ghost" type="button" onclick="processPriority()">Process highest</button></div></form>
+          <div id="priorityQueue" class="footer-note"></div>
+        </div>
+      </div>
+      <div class="footer-note">Orders in this screen are queue demonstrations only; they do not execute BUY/SELL trades automatically, matching the current C++ program's separation of order queues and transaction manager.</div>
+    </section>
+
+    <section class="view" id="activity">
+      <div class="section-head"><div><h2>Activity & transactions</h2><p>Recent actions and the transaction ledger for this browser session.</p></div><button class="btn danger" onclick="clearActivity()">Clear activity log</button></div>
+      <div class="split">
+        <div class="card"><div class="card-title"><h2>Action history</h2><span class="badge neutral">Stack · newest first</span></div><div id="activityList"></div></div>
+        <div class="card"><div class="card-title"><h2>Transaction ledger</h2><span class="hint">Newest first</span></div><div id="transactionList"></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="addModal" onclick="if(event.target===this)closeModal('addModal')">
+ <div class="modal"><button class="close" onclick="closeModal('addModal')">✕</button><h3>Add holding to portfolio</h3>
+  <form id="addForm"><div class="form-grid">
+   <div class="field"><label>Stock symbol/name</label><input id="addName" required placeholder="e.g. INFY"></div>
+   <div class="field"><label>Current market price (₹)</label><input id="addPrice" type="number" min="0" step=".01" required></div>
+   <div class="field"><label>Quantity</label><input id="addQty" type="number" min="1" step="1" required></div>
+   <div class="field"><label>Average buy price (₹)</label><input id="addBuy" type="number" min="0" step=".01" placeholder="Leave blank to use current price"></div>
+  </div><div class="form-actions"><button class="btn">Add holding</button><button type="button" class="btn ghost" onclick="closeModal('addModal')">Cancel</button></div></form>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='stockwise_frontend_v1';
+const seed={
+ stocks:[
+  {name:'RELIANCE',price:1428.5,buy:1350,qty:18},
+  {name:'TCS',price:3620,buy:3710,qty:8},
+  {name:'INFY',price:1685.25,buy:1540,qty:22},
+  {name:'HDFCBANK',price:1762,buy:1695,qty:15}
+ ],
+ transactions:[],activity:['Welcome to StockWise demo workspace.'],normal:[],priority:[],nextId:3001
+};
+let state=load();
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&Array.isArray(x.stocks)?x:structuredClone(seed)}catch(e){return structuredClone(seed)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmt(n){return Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2})}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function log(msg){state.activity.unshift(new Date().toLocaleString()+' — '+msg);state.activity=state.activity.slice(0,100);save()}
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('pageTitle').textContent=({overview:'Overview',portfolio:'Portfolio',trading:'Trading terminal',orders:'Order desk',activity:'Activity & transactions'})[id];renderAll()}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+function totals(){const invest=state.stocks.reduce((a,s)=>a+s.buy*s.qty,0),value=state.stocks.reduce((a,s)=>a+s.price*s.qty,0);return {invest,value,pl:value-invest,ret:invest?(value-invest)/invest*100:0}}
+function holdingRow(s){const pl=(s.price-s.buy)*s.qty,pct=s.buy?((s.price-s.buy)/s.buy*100):0;return `<tr><td><div class="symbol">${esc(s.name)}</div><div class="company">Equity holding</div></td><td>${money(s.price)}</td><td>${s.qty}</td><td>${money(s.buy)}</td><td>${money(s.price*s.qty)}</td><td class="${pl>=0?'positive':'negative'}">${money(pl)} <small>(${pct.toFixed(2)}%)</small></td><td><div class="actions"><button class="icon-btn" onclick="editPrice('${esc(s.name)}')">Edit price</button><button class="icon-btn" onclick="removeStock('${esc(s.name)}')">Delete</button></div></td></tr>`}
+function tableHTML(stocks){if(!stocks.length)return '<div class="empty">No holdings found. Add a holding or buy a stock to get started.</div>';return `<table><thead><tr><th>Stock</th><th>Market price</th><th>Qty</th><th>Avg. buy</th><th>Market value</th><th>Unrealized P/L</th><th>Actions</th></tr></thead><tbody>${stocks.map(holdingRow).join('')}</tbody></table>`}
+function renderPortfolio(){let arr=[...state.stocks],q=(document.getElementById('stockSearch')?.value||'').toUpperCase(),sort=document.getElementById('sortBy')?.value||'default';arr=arr.filter(s=>s.name.includes(q));if(sort==='price')arr.sort((a,b)=>a.price-b.price);if(sort==='quantity')arr.sort((a,b)=>a.qty-b.qty);if(sort==='pl')arr.sort((a,b)=>(b.price-b.buy)*b.qty-(a.price-a.buy)*a.qty);document.getElementById('portfolioTable').innerHTML=tableHTML(arr)}
+function renderOverview(){const t=totals();document.getElementById('sInvest').textContent=money(t.invest);document.getElementById('sValue').textContent=money(t.value);const p=document.getElementById('sPL');p.textContent=money(t.pl);p.className='stat-value '+(t.pl>=0?'positive':'negative');document.getElementById('sReturn').textContent=t.ret.toFixed(2)+'% overall return';document.getElementById('sReturn').className='stat-sub '+(t.pl>=0?'positive':'negative');document.getElementById('sCount').textContent=state.stocks.length;
+ const alloc=document.getElementById('allocation');if(!state.stocks.length)alloc.innerHTML='<div class="empty">No allocation data yet.</div>';else alloc.innerHTML=state.stocks.map(s=>({s,v:s.price*s.qty})).sort((a,b)=>b.v-a.v).map(x=>{let pct=t.value?x.v/t.value*100:0;return `<div class="alloc-row"><b>${esc(x.s.name)}</b><div class="bar"><span style="width:${pct}%"></span></div><span>${pct.toFixed(1)}%</span></div>`}).join('');
+ document.getElementById('topHoldings').innerHTML=tableHTML([...state.stocks].sort((a,b)=>b.price*b.qty-a.price*a.qty).slice(0,4));
+ drawChart(t.invest,t.value)}
+function drawChart(invest,value){const c=document.getElementById('portfolioChart'),ctx=c.getContext('2d'),w=c.clientWidth,h=c.clientHeight,dpr=window.devicePixelRatio||1;c.width=w*dpr;c.height=h*dpr;ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);const pad=25,max=Math.max(invest,value,1)*1.15;ctx.strokeStyle='#edf1f7';ctx.lineWidth=1;for(let i=0;i<4;i++){let y=pad+i*(h-2*pad)/3;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke()}const base=h-pad,barW=Math.min(90,(w-100)/3),gap=35;let x=w/2-barW-gap/2;[[invest,'#9db7f8','Invested'],[value,'#3268e8','Market value']].forEach((a,i)=>{let bh=(a[0]/max)*(h-2*pad);ctx.fillStyle=a[1];ctx.beginPath();ctx.roundRect(x+i*(barW+gap),base-bh,barW,bh,7);ctx.fill();ctx.fillStyle='#59677b';ctx.font='11px system-ui';ctx.textAlign='center';ctx.fillText(a[2],x+i*(barW+gap)+barW/2,h-5);ctx.fillStyle='#17243a';ctx.font='bold 11px system-ui';ctx.fillText('₹'+fmt(a[0]),x+i*(barW+gap)+barW/2,Math.max(13,base-bh-8))})}
+function renderTransactions(target){const el=document.getElementById(target);if(!state.transactions.length){el.innerHTML='<div class="empty">No transactions recorded yet.</div>';return}el.innerHTML=state.transactions.slice(0, target==='recentTransactions'?5:50).map(t=>`<div style="padding:11px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;font-size:11px"><div><b class="${t.type==='BUY'?'positive':'negative'}">${t.type}</b> · ${esc(t.name)}<div class="hint">${esc(t.date)} · ${t.qty} shares @ ${money(t.price)}</div></div><b>${money(t.qty*t.price)}</b></div>`).join('')}
+function renderActivity(){document.getElementById('activityList').innerHTML=state.activity.length?state.activity.map(a=>`<div style="padding:10px 0;border-bottom:1px solid var(--line);font-size:11px">${esc(a)}</div>`).join(''):'<div class="empty">No activity recorded.</div>';renderTransactions('transactionList')}
+function renderQueues(){document.getElementById('normalQueue').innerHTML=state.normal.length?'Queue (front → rear): <b>'+state.normal.map(esc).join(' → ')+'</b>':'Queue is empty.';document.getElementById('priorityQueue').innerHTML=state.priority.length?'Priority (highest first):<br>'+state.priority.map(o=>`<b>${esc(o.id)}</b> · priority ${o.priority}`).join('<br>'):'Priority queue is empty.'}
+function renderAll(){renderOverview();renderPortfolio();renderTransactions('recentTransactions');renderActivity();renderQueues()}
+function openModal(id){document.getElementById(id).classList.add('show')}function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.getElementById('addForm').addEventListener('submit',e=>{e.preventDefault();let name=document.getElementById('addName').value.trim().toUpperCase(),price=+document.getElementById('addPrice').value,qty=+document.getElementById('addQty').value,buy=document.getElementById('addBuy').value===''?price:+document.getElementById('addBuy').value;if(state.stocks.some(s=>s.name===name)){toast('This stock already exists. Use Buy to add quantity.');return}if(!name||price<0||qty<=0||buy<0){toast('Enter valid stock details.');return}state.stocks.push({name,price,buy,qty});log('Added holding '+name);save();e.target.reset();closeModal('addModal');renderAll();toast('Holding added successfully')});
+document.getElementById('buyForm').addEventListener('submit',e=>{e.preventDefault();let name=document.getElementById('buyName').value.trim().toUpperCase(),qty=+document.getElementById('buyQty').value,price=+document.getElementById('buyPrice').value;if(!name||qty<=0||price<=0){toast('Enter valid buy details');return}let s=state.stocks.find(x=>x.name===name);if(s){s.buy=(s.buy*s.qty+price*qty)/(s.qty+qty);s.qty+=qty;s.price=price}else state.stocks.push({name,price,buy:price,qty});state.transactions.unshift({type:'BUY',name,qty,price,date:new Date().toLocaleString()});log(`BUY ${name} × ${qty}`);save();e.target.reset();renderAll();toast('BUY completed; portfolio updated')});
+document.getElementById('sellForm').addEventListener('submit',e=>{e.preventDefault();let name=document.getElementById('sellName').value.trim().toUpperCase(),qty=+document.getElementById('sellQty').value,price=+document.getElementById('sellPrice').value,s=state.stocks.find(x=>x.name===name);if(!s||qty<=0||price<=0||qty>s.qty){toast('Sell failed: holding missing or quantity insufficient');return}const realized=(price-s.buy)*qty;s.qty-=qty;const oldBuy=s.buy;if(s.qty===0)state.stocks=state.stocks.filter(x=>x!==s);state.transactions.unshift({type:'SELL',name,qty,price,date:new Date().toLocaleString(),realized});log(`SELL ${name} × ${qty} · realized P/L ${money(realized)}`);save();e.target.reset();renderAll();toast('SELL completed; realized P/L '+money(realized))});
+function removeStock(name){if(!confirm('Delete '+name+' from your portfolio?'))return;state.stocks=state.stocks.filter(s=>s.name!==name);log('Deleted holding '+name);save();renderAll();toast('Holding deleted')}
+function editPrice(name){let s=state.stocks.find(x=>x.name===name);if(!s)return;let v=prompt('Enter new current market price for '+name,s.price);if(v===null)return;let p=Number(v);if(!Number.isFinite(p)||p<0){toast('Enter a valid non-negative price');return}s.price=p;log('Updated market price for '+name+' to '+money(p));save();renderAll();toast('Market price updated')}
+document.getElementById('normalForm').addEventListener('submit',e=>{e.preventDefault();let id=document.getElementById('normalId').value.trim();if(state.normal.length>=50){toast('Normal queue is full');return}state.normal.push(id);log('Enqueued normal order '+id);save();e.target.reset();renderQueues();renderActivity();toast('Order added to FIFO queue')});
+function processNormal(){if(!state.normal.length){toast('Normal queue is empty');return}let id=state.normal.shift();log('Processed normal order '+id);save();renderQueues();renderActivity();toast('Processed order '+id)}
+document.getElementById('priorityForm').addEventListener('submit',e=>{e.preventDefault();let id=document.getElementById('priorityId').value.trim(),priority=+document.getElementById('priorityLevel').value;if(!id||!Number.isFinite(priority)){toast('Enter valid order details');return}state.priority.push({id,priority,seq:Date.now()});state.priority.sort((a,b)=>b.priority-a.priority||a.seq-b.seq);log('Added priority order '+id+' (priority '+priority+')');save();e.target.reset();renderQueues();renderActivity();toast('Priority order added')});
+function processPriority(){if(!state.priority.length){toast('Priority queue is empty');return}let o=state.priority.shift();log('Processed priority order '+o.id);save();renderQueues();renderActivity();toast('Processed priority order '+o.id)}
+function clearActivity(){if(!confirm('Clear the action history? Transaction records will remain.'))return;state.activity=[];save();renderActivity();toast('Activity log cleared')}
+window.addEventListener('resize',()=>{if(document.getElementById('overview').classList.contains('active'))renderOverview()});
+renderAll();
+</script>
+</body>
+</html>
